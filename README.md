@@ -73,7 +73,7 @@
 ## ⚙️ 프로그래밍 요구 사항
 
 - **Rust 1.82+**, `wasm-pack` 최신 버전
-- 브라우저 빌드 파이프라인: `wasm-pack build --target web`
+- 브라우저 빌드 파이프라인: `wasm-pack build --target web --out-dir ../todo_ui/src/wasm`
 - 프론트엔드: Vite(바닐라)로 WASM 번들 로딩
 - 함수는 단일 책임, 가급적 15줄 이내 유지
 - 안전한 상태 공유를 위해 `Rc<RefCell<>>` 대신 명시적 메시지 패턴 고려
