@@ -119,6 +119,13 @@
 
 ---
 
+## 🌐 배포
+
+- GitHub Pages: https://tldjfj123.github.io/TO_DO/
+- 재배포: `cd todo_ui && npm run deploy`
+
+---
+
 ## 🚨 제출 전 최종 체크리스트
 
 - [x] `wasm-pack test --headless --chrome` 통과
