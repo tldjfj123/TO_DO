@@ -1,5 +1,5 @@
 import './style.css'
-import initWasm, { TodoList } from '../../todo_wasm/pkg/todo_wasm.js'
+import initWasm, { TodoList } from './wasm/todo_wasm.js'
 
 const STORAGE_KEY = 'todo-wasm-items'
 const FILTERS = ['all', 'active', 'done']
