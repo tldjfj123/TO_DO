@@ -161,25 +161,34 @@ impl ToString for TodoError {
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[cfg(target_arch = "wasm32")]
+    use wasm_bindgen_test::*;
 
-    #[test]
+    #[cfg(target_arch = "wasm32")]
+    wasm_bindgen_test_configure!(run_in_browser);
+
+    #[cfg_attr(not(target_arch = "wasm32"), test)]
+    #[cfg_attr(target_arch = "wasm32", wasm_bindgen_test)]
     fn rejects_empty_title() {
         assert!(normalize_title("   ").is_err());
     }
 
-    #[test]
+    #[cfg_attr(not(target_arch = "wasm32"), test)]
+    #[cfg_attr(target_arch = "wasm32", wasm_bindgen_test)]
     fn rejects_long_title() {
         let long = "a".repeat(TITLE_MAX_LEN + 1);
         assert!(normalize_title(&long).is_err());
     }
 
-    #[test]
+    #[cfg_attr(not(target_arch = "wasm32"), test)]
+    #[cfg_attr(target_arch = "wasm32", wasm_bindgen_test)]
     fn trims_valid_title() {
         let result = normalize_title("  hello  ").unwrap();
         assert_eq!(result, "hello");
     }
 
-    #[test]
+    #[cfg_attr(not(target_arch = "wasm32"), test)]
+    #[cfg_attr(target_arch = "wasm32", wasm_bindgen_test)]
     fn add_creates_item() {
         let mut list = TodoList::new();
         let created = list.add_item("첫 번째 할 일").unwrap();
@@ -189,7 +198,8 @@ mod tests {
         assert!(!created.completed);
     }
 
-    #[test]
+    #[cfg_attr(not(target_arch = "wasm32"), test)]
+    #[cfg_attr(target_arch = "wasm32", wasm_bindgen_test)]
     fn toggle_updates_state() {
         let mut list = TodoList::new();
         list.add_item("테스트").unwrap();
@@ -199,7 +209,8 @@ mod tests {
         assert!(!list.items[0].completed);
     }
 
-    #[test]
+    #[cfg_attr(not(target_arch = "wasm32"), test)]
+    #[cfg_attr(target_arch = "wasm32", wasm_bindgen_test)]
     fn remove_deletes_item() {
         let mut list = TodoList::new();
         list.add_item("테스트").unwrap();
@@ -207,7 +218,8 @@ mod tests {
         assert!(list.items.is_empty());
     }
 
-    #[test]
+    #[cfg_attr(not(target_arch = "wasm32"), test)]
+    #[cfg_attr(target_arch = "wasm32", wasm_bindgen_test)]
     fn hydrate_restores_items() {
         let mut list = TodoList::new();
         list.add_item("테스트").unwrap();
