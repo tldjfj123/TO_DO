@@ -1,8 +1,8 @@
 import './style.css'
 import initWasm, { TodoList } from './wasm/todo_wasm.js'
+import { FILTERS, applyFilter, remainingCount } from './lib/filters.js'
 
 const STORAGE_KEY = 'todo-wasm-items'
-const FILTERS = ['all', 'active', 'done']
 
 const app = document.querySelector('#app')
 
@@ -51,7 +51,7 @@ let todoList = null
 let currentFilter = 'all'
 
 const formatSummary = (items) =>
-  `오늘의 할 일 (${items.filter((item) => !item.completed).length})`
+  `오늘의 할 일 (${remainingCount(items)})`
 
 const persist = (items) => {
   try {
@@ -87,11 +87,7 @@ const renderEmptyState = () => {
 
 const renderTodos = () => {
   const items = todoList.items()
-  const visible = items.filter((item) => {
-    if (currentFilter === 'active') return !item.completed
-    if (currentFilter === 'done') return item.completed
-    return true
-  })
+  const visible = applyFilter(items, currentFilter)
 
   if (visible.length === 0) {
     renderEmptyState()
@@ -111,7 +107,7 @@ const renderTodos = () => {
       .join('')
   }
 
-  elements.counter.textContent = `${items.filter((item) => !item.completed).length}개 남음`
+  elements.counter.textContent = `${remainingCount(items)}개 남음`
   elements.summary.textContent = formatSummary(items)
   persist(items)
 }
